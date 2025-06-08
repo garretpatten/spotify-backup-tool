@@ -1,0 +1,26 @@
+{
+  "name": "spotify-backup-tool",
+  "version": "1.0.0",
+  "description": "This repository contains a tool that uses the Spotify API to backup profile and playlist data.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/garretpatten/spotify-backup-tool.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/garretpatten/spotify-backup-tool/issues"
+  },
+  "homepage": "https://github.com/garretpatten/spotify-backup-tool#readme",
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "fs-extra": "^11.3.0",
+    "spotify-web-api-node": "^5.0.2"
+  }
+}
