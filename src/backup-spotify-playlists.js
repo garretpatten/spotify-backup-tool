@@ -1,7 +1,7 @@
-require('dotenv').config();
-const SpotifyWebApi = require('spotify-web-api-node');
-const fs = require('fs-extra');
-const path = require('path');
+require("dotenv").config();
+const SpotifyWebApi = require("spotify-web-api-node");
+const fs = require("fs-extra");
+const path = require("path");
 
 const api = new SpotifyWebApi({
   clientId: process.env.SPOTIFY_CLIENT_ID,
@@ -26,7 +26,7 @@ async function getAllPlaylists() {
 }
 
 function sanitize(name) {
-  return name.replace(/[^a-z0-9_\-\.]/gi, '_');
+  return name.replace(/[^a-z0-9_\-\.]/gi, "_");
 }
 
 async function fetchTracks(playlistId) {
@@ -37,7 +37,8 @@ async function fetchTracks(playlistId) {
     const res = await api.getPlaylistTracks(playlistId, {
       offset,
       limit: 100,
-      fields: 'items(track(name,artists(name),album(name,release_date),external_urls,duration_ms)),next',
+      fields:
+        "items(track(name,artists(name),album(name,release_date),external_urls,duration_ms)),next",
     });
 
     for (const item of res.body.items) {
@@ -46,7 +47,7 @@ async function fetchTracks(playlistId) {
 
       tracks.push({
         name: t.name,
-        artists: t.artists.map(a => a.name),
+        artists: t.artists.map((a) => a.name),
         album: t.album.name,
         release_date: t.album.release_date,
         url: t.external_urls.spotify,
@@ -62,15 +63,15 @@ async function fetchTracks(playlistId) {
 }
 
 async function backup() {
-  await api.refreshAccessToken().then(data => {
-    api.setAccessToken(data.body['access_token']);
+  await api.refreshAccessToken().then((data) => {
+    api.setAccessToken(data.body["access_token"]);
   });
 
-  const backupRoot = path.join(__dirname, 'spotify-playlist-backup');
+  const backupRoot = path.join(__dirname, "spotify-playlist-backup");
   const playlists = await getAllPlaylists();
 
   for (const pl of playlists) {
-    const visibility = pl.public ? 'public' : 'private';
+    const visibility = pl.public ? "public" : "private";
     const targetDir = path.join(backupRoot, visibility);
     await fs.ensureDir(targetDir);
 
@@ -96,9 +97,9 @@ async function backup() {
     console.log(`✅ ${visibility.toUpperCase()} ➜ ${pl.name}`);
   }
 
-  console.log('🎉 All playlists backed up.');
+  console.log("🎉 All playlists backed up.");
 }
 
-backup().catch(err => {
-  console.error('❌ Backup failed:', err);
+backup().catch((err) => {
+  console.error("❌ Backup failed:", err);
 });
