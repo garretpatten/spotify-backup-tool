@@ -6,6 +6,10 @@
   "scripts": {
     "start": "node src/index.js",
     "backup": "node src/index.js",
+    "auth": "node src/auth/index.js",
+    "auth:test": "node src/auth/index.js --test",
+    "setup": "node setup.js",
+    "setup:auth": "npm run auth",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
@@ -28,7 +32,8 @@
     "dotenv": "^16.5.0",
     "fs-extra": "^11.3.0",
     "spotify-web-api-node": "^5.0.2",
-    "archiver": "^7.0.1"
+    "archiver": "^7.0.1",
+    "open": "^10.1.0"
   },
   "devDependencies": {
     "jest": "^29.7.0",
