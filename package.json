@@ -1,17 +1,23 @@
 {
   "name": "spotify-backup-tool",
   "version": "1.0.0",
-  "description": "This repository contains a tool that uses the Spotify API to backup profile and playlist data.",
-  "main": "index.js",
+  "description": "A comprehensive tool that uses the Spotify API to backup profile and playlist data with zip compression and testing.",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/index.js",
+    "backup": "node src/index.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint src/**/*.js",
+    "lint:fix": "eslint src/**/*.js --fix"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/garretpatten/spotify-backup-tool.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["spotify", "backup", "playlist", "music", "api"],
+  "author": "Garret Patten",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
@@ -21,6 +27,21 @@
   "dependencies": {
     "dotenv": "^16.5.0",
     "fs-extra": "^11.3.0",
-    "spotify-web-api-node": "^5.0.2"
+    "spotify-web-api-node": "^5.0.2",
+    "archiver": "^7.0.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "eslint": "^8.57.0",
+    "supertest": "^6.3.4"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/index.js"
+    ],
+    "coverageDirectory": "coverage",
+    "coverageReporters": ["text", "lcov", "html"]
   }
 }
