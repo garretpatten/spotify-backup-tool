@@ -1,5 +1,5 @@
-const http = require('http');
-const url = require('url');
+const http = require("http");
+const url = require("url");
 
 class CallbackServer {
   constructor(port = 3000) {
@@ -18,12 +18,12 @@ class CallbackServer {
       this.server = http.createServer((req, res) => {
         const parsedUrl = url.parse(req.url, true);
 
-        if (parsedUrl.pathname === '/callback') {
+        if (parsedUrl.pathname === "/callback") {
           const code = parsedUrl.query.code;
           const error = parsedUrl.query.error;
 
           if (error) {
-            res.writeHead(400, { 'Content-Type': 'text/html' });
+            res.writeHead(400, { "Content-Type": "text/html" });
             res.end(`
               <html>
                 <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
@@ -35,7 +35,7 @@ class CallbackServer {
             `);
             this.callbackResolve({ error });
           } else if (code) {
-            res.writeHead(200, { 'Content-Type': 'text/html' });
+            res.writeHead(200, { "Content-Type": "text/html" });
             res.end(`
               <html>
                 <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
@@ -57,7 +57,7 @@ class CallbackServer {
               this.callbackResolve({ code });
             }
           } else {
-            res.writeHead(400, { 'Content-Type': 'text/html' });
+            res.writeHead(400, { "Content-Type": "text/html" });
             res.end(`
               <html>
                 <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
@@ -67,10 +67,10 @@ class CallbackServer {
                 </body>
               </html>
             `);
-            this.callbackResolve({ error: 'No authorization code found' });
+            this.callbackResolve({ error: "No authorization code found" });
           }
         } else {
-          res.writeHead(404, { 'Content-Type': 'text/html' });
+          res.writeHead(404, { "Content-Type": "text/html" });
           res.end(`
             <html>
               <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
@@ -86,15 +86,19 @@ class CallbackServer {
         if (err) {
           reject(err);
         } else {
-          console.log(`🌐 Callback server running on http://localhost:${this.port}`);
+          console.log(
+            `🌐 Callback server running on http://localhost:${this.port}`,
+          );
           resolve();
         }
       });
 
       // Handle server errors
-      this.server.on('error', (err) => {
-        if (err.code === 'EADDRINUSE') {
-          console.log(`⚠️  Port ${this.port} is already in use. Trying port ${this.port + 1}...`);
+      this.server.on("error", (err) => {
+        if (err.code === "EADDRINUSE") {
+          console.log(
+            `⚠️  Port ${this.port} is already in use. Trying port ${this.port + 1}...`,
+          );
           this.port++;
           this.server.close();
           this.start().then(resolve).catch(reject);
