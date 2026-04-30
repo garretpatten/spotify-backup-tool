@@ -1,6 +1,6 @@
-const SpotifyWebApi = require('spotify-web-api-node');
-const Logger = require('../utils/Logger');
-const config = require('../config/config');
+const SpotifyWebApi = require("spotify-web-api-node");
+const Logger = require("../utils/Logger");
+const config = require("../config/config");
 
 class SpotifyApi {
   constructor() {
@@ -15,7 +15,7 @@ class SpotifyApi {
 
   async initialize() {
     if (!config.spotify.refreshToken) {
-      throw new Error('SPOTIFY_REFRESH_TOKEN environment variable is required');
+      throw new Error("SPOTIFY_REFRESH_TOKEN environment variable is required");
     }
 
     this.api.setRefreshToken(config.spotify.refreshToken);
@@ -23,9 +23,11 @@ class SpotifyApi {
     try {
       const data = await this.api.refreshAccessToken();
       this.api.setAccessToken(data.body.access_token);
-      this.logger.info('🔑 Successfully authenticated with Spotify API');
+      this.logger.info("🔑 Successfully authenticated with Spotify API");
     } catch (error) {
-      throw new Error(`Failed to authenticate with Spotify API: ${error.message}`);
+      throw new Error(
+        `Failed to authenticate with Spotify API: ${error.message}`,
+      );
     }
   }
 
@@ -44,7 +46,10 @@ class SpotifyApi {
         }
         offset += limit;
       } catch (error) {
-        this.logger.error(`Failed to fetch playlists at offset ${offset}:`, error);
+        this.logger.error(
+          `Failed to fetch playlists at offset ${offset}:`,
+          error,
+        );
         throw error;
       }
     }
@@ -62,7 +67,8 @@ class SpotifyApi {
         const response = await this.api.getPlaylistTracks(playlistId, {
           offset,
           limit,
-          fields: 'items(track(name,artists(name,id,external_urls),album(name,id,release_date,release_date_precision,external_urls,images),external_urls,duration_ms,explicit,popularity,preview_url,track_number,disc_number)),next'
+          fields:
+            "items(track(name,artists(name,id,external_urls),album(name,id,release_date,release_date_precision,external_urls,images),external_urls,duration_ms,explicit,popularity,preview_url,track_number,disc_number)),next",
         });
 
         for (const item of response.body.items) {
@@ -75,7 +81,10 @@ class SpotifyApi {
         if (!response.body.next) break;
         offset += limit;
       } catch (error) {
-        this.logger.error(`Failed to fetch tracks for playlist ${playlistId} at offset ${offset}:`, error);
+        this.logger.error(
+          `Failed to fetch tracks for playlist ${playlistId} at offset ${offset}:`,
+          error,
+        );
         throw error;
       }
     }
@@ -88,7 +97,7 @@ class SpotifyApi {
       const response = await this.api.getMe();
       return response.body;
     } catch (error) {
-      this.logger.error('Failed to fetch user profile:', error);
+      this.logger.error("Failed to fetch user profile:", error);
       throw error;
     }
   }
