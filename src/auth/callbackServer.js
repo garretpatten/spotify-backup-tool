@@ -41,7 +41,6 @@ class CallbackServer {
                 <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
                   <h2 style="color: green;">✅ Authorization Successful!</h2>
                   <p>You can close this window and return to the terminal.</p>
-                  <p><small>Authorization code: ${code.substring(0, 10)}...</small></p>
                   <script>
                     // Auto-close window after 3 seconds
                     setTimeout(() => {
