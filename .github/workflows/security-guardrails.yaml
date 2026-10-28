@@ -1,0 +1,16 @@
+name: 'Security Guardrails'
+
+on: pull_request
+
+permissions:
+  contents: read
+
+jobs:
+  scans:
+    name: 'Scans'
+    # yamllint disable-line rule:line-length
+    uses: garretpatten/security-guardrails/.github/workflows/security-guardrails.yaml@v1
+    with:
+      opengrep_run: true
+      supply_chain_run: true
+      trufflehog_run: true
