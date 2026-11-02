@@ -1,8 +1,4 @@
 // Mock the config module
-jest.mock('../../config/config', () => ({
-  logging: { level: 'info' },
-}));
-
 const Logger = require('../Logger');
 const config = require('../../config/config');
 
@@ -12,9 +8,9 @@ describe('Logger', () => {
 
   beforeEach(() => {
     consoleSpy = {
-      error: jest.spyOn(console, 'error').mockImplementation(),
-      warn: jest.spyOn(console, 'warn').mockImplementation(),
-      log: jest.spyOn(console, 'log').mockImplementation(),
+      error: vi.spyOn(console, 'error').mockImplementation(),
+      warn: vi.spyOn(console, 'warn').mockImplementation(),
+      log: vi.spyOn(console, 'log').mockImplementation(),
     };
 
     // Reset the log level for each test

@@ -11,7 +11,7 @@ A comprehensive Node.js tool that uses the Spotify API to backup all your privat
   - External URLs for easy access
 - 📦 **Zip Compression**: Creates compressed archives for efficient storage
 - 🔐 **Automated Authentication**: Interactive setup that handles OAuth flow automatically
-- 🧪 **Comprehensive Testing**: Full Jest test suite with CI/CD integration
+- 🧪 **Comprehensive Testing**: Full Vitest test suite with CI/CD integration
 - 🔧 **Configurable**: Environment-based configuration for different deployment scenarios
 - 📝 **Detailed Logging**: Structured logging with configurable levels
 - 🚀 **CI/CD Ready**: GitHub Actions workflow for automated testing

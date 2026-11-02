@@ -1,27 +1,39 @@
-const fs = require('fs-extra');
 const path = require('path');
+
+// Stub the CJS dependencies; Vitest cannot intercept `require()` with
+// vi.mock, so the module cache is patched instead
+const { stubModule, restoreStubs } = require('../../__tests__/moduleStubs');
+
+const fs = stubModule(require, 'fs-extra', {
+  ensureDir: vi.fn(),
+  writeJson: vi.fn(),
+  createWriteStream: vi.fn(),
+  pathExists: vi.fn(),
+  readdir: vi.fn(),
+  readJson: vi.fn(),
+  stat: vi.fn(),
+  remove: vi.fn(),
+});
+const archiver = stubModule(require, 'archiver', vi.fn());
+
 const FileManager = require('../FileManager');
 
-// Mock fs-extra
-jest.mock('fs-extra');
-
-// Mock archiver
-jest.mock('archiver');
+afterAll(restoreStubs);
 
 describe('FileManager', () => {
   let fileManager;
   let mockArchiver;
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
 
     // Mock archiver
     const archiver = require('archiver');
     mockArchiver = {
-      pipe: jest.fn(),
-      directory: jest.fn(),
-      finalize: jest.fn(),
-      on: jest.fn(),
+      pipe: vi.fn(),
+      directory: vi.fn(),
+      finalize: vi.fn(),
+      on: vi.fn(),
     };
     archiver.mockImplementation(() => mockArchiver);
 
@@ -122,7 +134,7 @@ describe('FileManager', () => {
   describe('createZipArchive', () => {
     it('should create zip archive successfully', async () => {
       const mockOutput = {
-        on: jest.fn(),
+        on: vi.fn(),
       };
       fs.createWriteStream.mockReturnValue(mockOutput);
 
@@ -133,7 +145,7 @@ describe('FileManager', () => {
         }
       });
 
-      mockArchiver.pointer = jest.fn().mockReturnValue(1024);
+      mockArchiver.pointer = vi.fn().mockReturnValue(1024);
 
       const result = await fileManager.createZipArchive();
 
@@ -148,7 +160,7 @@ describe('FileManager', () => {
 
     it('should handle archive errors', async () => {
       const mockOutput = {
-        on: jest.fn(),
+        on: vi.fn(),
       };
       fs.createWriteStream.mockReturnValue(mockOutput);
 
@@ -179,13 +191,11 @@ describe('FileManager', () => {
       fs.stat.mockResolvedValue({ size: 1024 });
 
       // Mock getAllPlaylistFiles to return the expected files
-      jest
-        .spyOn(fileManager, 'getAllPlaylistFiles')
-        .mockResolvedValue([
-          '/path/to/playlist1.json',
-          '/path/to/playlist2.json',
-          '/path/to/playlist3.json',
-        ]);
+      vi.spyOn(fileManager, 'getAllPlaylistFiles').mockResolvedValue([
+        '/path/to/playlist1.json',
+        '/path/to/playlist2.json',
+        '/path/to/playlist3.json',
+      ]);
 
       const stats = await fileManager.getBackupStats();
 

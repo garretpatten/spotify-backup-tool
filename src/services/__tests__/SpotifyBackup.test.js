@@ -1,36 +1,13 @@
-// Mock the config module
-jest.mock('../../config/config', () => ({
-  spotify: {
-    clientId: 'test-client-id',
-    clientSecret: 'test-client-secret',
-    refreshToken: 'test-refresh-token',
-  },
-  api: {
-    playlistLimit: 50,
-    trackLimit: 100,
-    retryAttempts: 3,
-    retryDelay: 1000,
-  },
-  backup: {
-    directory: './test-backup',
-    zipFileName: 'test-backup',
-    includeTimestamp: true,
-  },
-  compression: {
-    level: 9,
-  },
-  logging: {
-    level: 'info',
-  },
-}));
+// Stub the local collaborator modules; Vitest cannot intercept `require()`
+// with vi.mock, so the module cache is patched instead
+const { stubModule, restoreStubs } = require('../../__tests__/moduleStubs');
+
+const SpotifyApi = stubModule(require, '../SpotifyApi', vi.fn());
+const FileManager = stubModule(require, '../FileManager', vi.fn());
 
 const SpotifyBackup = require('../SpotifyBackup');
-const SpotifyApi = require('../SpotifyApi');
-const FileManager = require('../FileManager');
 
-// Mock dependencies
-jest.mock('../SpotifyApi');
-jest.mock('../FileManager');
+afterAll(restoreStubs);
 
 describe('SpotifyBackup', () => {
   let spotifyBackup;
@@ -38,23 +15,27 @@ describe('SpotifyBackup', () => {
   let mockFileManager;
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
 
     // Mock SpotifyApi
     mockSpotifyApi = {
-      initialize: jest.fn(),
-      getAllPlaylists: jest.fn(),
-      getPlaylistTracks: jest.fn(),
+      initialize: vi.fn(),
+      getAllPlaylists: vi.fn(),
+      getPlaylistTracks: vi.fn(),
     };
-    SpotifyApi.mockImplementation(() => mockSpotifyApi);
+    SpotifyApi.mockImplementation(function () {
+      return mockSpotifyApi;
+    });
 
     // Mock FileManager
     mockFileManager = {
-      ensureBackupDirectory: jest.fn(),
-      savePlaylist: jest.fn(),
-      createZipArchive: jest.fn(),
+      ensureBackupDirectory: vi.fn(),
+      savePlaylist: vi.fn(),
+      createZipArchive: vi.fn(),
     };
-    FileManager.mockImplementation(() => mockFileManager);
+    FileManager.mockImplementation(function () {
+      return mockFileManager;
+    });
 
     spotifyBackup = new SpotifyBackup();
   });

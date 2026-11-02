@@ -1,5 +1,5 @@
-// Test configuration used when running under Jest
-// (config.js loads this file when NODE_ENV === 'test' or JEST_WORKER_ID is set)
+// Test configuration used when running tests
+// (config.js loads this file when NODE_ENV === 'test' or VITEST is set)
 module.exports = {
   backup: {
     directory: './test-backup',

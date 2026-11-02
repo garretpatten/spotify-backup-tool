@@ -2,7 +2,9 @@ module.exports = {
   env: {
     node: true,
     es2021: true,
-    jest: true,
+  },
+  globals: {
+    vi: 'writable',
   },
   extends: ['eslint:recommended'],
   parserOptions: {
