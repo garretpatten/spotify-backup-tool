@@ -10,9 +10,9 @@
     "auth:test": "node src/auth/index.js --test",
     "setup": "node setup.js",
     "setup:auth": "npm run auth",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "lint": "eslint src/**/*.js",
     "lint:fix": "eslint src/**/*.js --fix"
   },
@@ -35,33 +35,16 @@
   },
   "homepage": "https://github.com/garretpatten/spotify-backup-tool#readme",
   "dependencies": {
+    "archiver": "^7.0.1",
     "dotenv": "^16.5.0",
     "fs-extra": "^11.3.0",
-    "spotify-web-api-node": "^5.0.2",
-    "archiver": "^7.0.1",
-    "open": "^10.1.0"
+    "open": "^10.1.0",
+    "spotify-web-api-node": "^5.0.2"
   },
   "devDependencies": {
-    "jest": "^29.7.0",
+    "@vitest/coverage-v8": "^5.0.5",
     "eslint": "^8.57.0",
-    "supertest": "^6.3.4"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "src/config/config.test.js"
-    ],
-    "collectCoverageFrom": [
-      "src/**/*.js",
-      "!src/index.js",
-      "!src/config/config.test.js"
-    ],
-    "coverageDirectory": "coverage",
-    "coverageReporters": [
-      "text",
-      "lcov",
-      "html"
-    ]
+    "supertest": "^6.3.4",
+    "vitest": "^5.0.5"
   }
 }

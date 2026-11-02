@@ -4,7 +4,7 @@ Guidance for agents working in this repository (Spotify backup tool, Node.js).
 
 ## Commands
 
-- `npm test` — run jest tests
+- `npm test` — run vitest tests
 - `npm run test:coverage` — tests with coverage report
 - `npm run lint` — eslint
 - `npx prettier --check .` — formatting check

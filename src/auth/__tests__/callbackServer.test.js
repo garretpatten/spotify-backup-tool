@@ -7,7 +7,7 @@ describe('CallbackServer', () => {
   let consoleSpy;
 
   beforeEach(async () => {
-    consoleSpy = jest.spyOn(console, 'log').mockImplementation();
+    consoleSpy = vi.spyOn(console, 'log').mockImplementation();
 
     callbackServer = new CallbackServer(0);
     await callbackServer.start();

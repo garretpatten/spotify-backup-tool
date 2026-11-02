@@ -2,12 +2,21 @@ module.exports = {
   env: {
     node: true,
     es2021: true,
-    jest: true,
   },
   extends: ['eslint:recommended'],
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
+  },
+  globals: {
+    vi: 'writable',
+    describe: 'writable',
+    it: 'writable',
+    expect: 'writable',
+    beforeEach: 'writable',
+    afterEach: 'writable',
+    beforeAll: 'writable',
+    afterAll: 'writable',
   },
   rules: {
     indent: ['error', 2],

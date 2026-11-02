@@ -1,7 +1,7 @@
 const path = require('path');
 
 // Use test configuration during testing
-if (process.env.NODE_ENV === 'test' || process.env.JEST_WORKER_ID) {
+if (process.env.NODE_ENV === 'test' || process.env.VITEST) {
   module.exports = require('./config.test');
 } else {
   const config = {
@@ -42,7 +42,7 @@ if (process.env.NODE_ENV === 'test' || process.env.JEST_WORKER_ID) {
 
   // Validate required configuration (skip during testing)
   const isTestEnvironment =
-    process.env.NODE_ENV === 'test' || process.env.JEST_WORKER_ID;
+    process.env.NODE_ENV === 'test' || process.env.VITEST;
   if (!isTestEnvironment) {
     const requiredEnvVars = [
       'SPOTIFY_CLIENT_ID',

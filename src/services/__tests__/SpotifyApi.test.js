@@ -1,25 +1,12 @@
-// Mock the config module
-jest.mock('../../config/config', () => ({
-  spotify: {
-    clientId: 'test-client-id',
-    clientSecret: 'test-client-secret',
-    refreshToken: 'test-refresh-token',
-  },
-  api: {
-    playlistLimit: 50,
-    trackLimit: 100,
-    retryAttempts: 3,
-    retryDelay: 1000,
-  },
-  logging: {
-    level: 'info',
-  },
-}));
+// Stub the CJS 'spotify-web-api-node' package; Vitest cannot intercept
+// `require()` with vi.mock, so the module cache is patched instead
+const { stubModule, restoreStubs } = require('../../__tests__/moduleStubs');
+
+const SpotifyWebApi = stubModule(require, 'spotify-web-api-node', vi.fn());
 
 const SpotifyApi = require('../SpotifyApi');
 
-// Mock the spotify-web-api-node module
-jest.mock('spotify-web-api-node');
+afterAll(restoreStubs);
 
 describe('SpotifyApi', () => {
   let spotifyApi;
@@ -27,19 +14,20 @@ describe('SpotifyApi', () => {
 
   beforeEach(() => {
     // Reset all mocks
-    jest.clearAllMocks();
+    vi.clearAllMocks();
 
     // Mock the SpotifyWebApi constructor
-    const SpotifyWebApi = require('spotify-web-api-node');
     mockSpotifyWebApi = {
-      setRefreshToken: jest.fn(),
-      refreshAccessToken: jest.fn(),
-      setAccessToken: jest.fn(),
-      getUserPlaylists: jest.fn(),
-      getPlaylistTracks: jest.fn(),
-      getMe: jest.fn(),
+      setRefreshToken: vi.fn(),
+      refreshAccessToken: vi.fn(),
+      setAccessToken: vi.fn(),
+      getUserPlaylists: vi.fn(),
+      getPlaylistTracks: vi.fn(),
+      getMe: vi.fn(),
     };
-    SpotifyWebApi.mockImplementation(() => mockSpotifyWebApi);
+    SpotifyWebApi.mockImplementation(function () {
+      return mockSpotifyWebApi;
+    });
 
     spotifyApi = new SpotifyApi();
   });
