@@ -1,9 +1,9 @@
 // Mock the config module
-jest.mock("../../config/config", () => ({
+jest.mock('../../config/config', () => ({
   spotify: {
-    clientId: "test-client-id",
-    clientSecret: "test-client-secret",
-    refreshToken: "test-refresh-token",
+    clientId: 'test-client-id',
+    clientSecret: 'test-client-secret',
+    refreshToken: 'test-refresh-token',
   },
   api: {
     playlistLimit: 50,
@@ -12,27 +12,27 @@ jest.mock("../../config/config", () => ({
     retryDelay: 1000,
   },
   backup: {
-    directory: "./test-backup",
-    zipFileName: "test-backup",
+    directory: './test-backup',
+    zipFileName: 'test-backup',
     includeTimestamp: true,
   },
   compression: {
     level: 9,
   },
   logging: {
-    level: "info",
+    level: 'info',
   },
 }));
 
-const SpotifyBackup = require("../SpotifyBackup");
-const SpotifyApi = require("../SpotifyApi");
-const FileManager = require("../FileManager");
+const SpotifyBackup = require('../SpotifyBackup');
+const SpotifyApi = require('../SpotifyApi');
+const FileManager = require('../FileManager');
 
 // Mock dependencies
-jest.mock("../SpotifyApi");
-jest.mock("../FileManager");
+jest.mock('../SpotifyApi');
+jest.mock('../FileManager');
 
-describe("SpotifyBackup", () => {
+describe('SpotifyBackup', () => {
   let spotifyBackup;
   let mockSpotifyApi;
   let mockFileManager;
@@ -59,8 +59,8 @@ describe("SpotifyBackup", () => {
     spotifyBackup = new SpotifyBackup();
   });
 
-  describe("initialize", () => {
-    it("should initialize dependencies", async () => {
+  describe('initialize', () => {
+    it('should initialize dependencies', async () => {
       await spotifyBackup.initialize();
 
       expect(mockSpotifyApi.initialize).toHaveBeenCalled();
@@ -68,11 +68,11 @@ describe("SpotifyBackup", () => {
     });
   });
 
-  describe("fetchAllPlaylists", () => {
-    it("should fetch and return all playlists", async () => {
+  describe('fetchAllPlaylists', () => {
+    it('should fetch and return all playlists', async () => {
       const mockPlaylists = [
-        { id: "1", name: "Playlist 1" },
-        { id: "2", name: "Playlist 2" },
+        { id: '1', name: 'Playlist 1' },
+        { id: '2', name: 'Playlist 2' },
       ];
       mockSpotifyApi.getAllPlaylists.mockResolvedValue(mockPlaylists);
 
@@ -83,26 +83,30 @@ describe("SpotifyBackup", () => {
     });
   });
 
-  describe("backupPlaylists", () => {
+  describe('backupPlaylists', () => {
     const mockTracks = [
       {
-        name: "Track 1",
+        name: 'Track 1',
         artists: [
-          { name: "Artist 1", id: "artist-1", external_urls: { spotify: "https://open.spotify.com/artist/1" } },
+          {
+            name: 'Artist 1',
+            id: 'artist-1',
+            external_urls: { spotify: 'https://open.spotify.com/artist/1' },
+          },
         ],
         album: {
-          name: "Album 1",
-          id: "album-1",
-          release_date: "2023-01-01",
-          release_date_precision: "day",
-          external_urls: { spotify: "https://open.spotify.com/album/1" },
-          images: [{ url: "https://example.com/image.jpg" }],
+          name: 'Album 1',
+          id: 'album-1',
+          release_date: '2023-01-01',
+          release_date_precision: 'day',
+          external_urls: { spotify: 'https://open.spotify.com/album/1' },
+          images: [{ url: 'https://example.com/image.jpg' }],
         },
-        external_urls: { spotify: "https://open.spotify.com/track/1" },
+        external_urls: { spotify: 'https://open.spotify.com/track/1' },
         duration_ms: 180000,
         explicit: false,
         popularity: 80,
-        preview_url: "https://example.com/preview.mp3",
+        preview_url: 'https://example.com/preview.mp3',
         track_number: 1,
         disc_number: 1,
       },
@@ -111,18 +115,18 @@ describe("SpotifyBackup", () => {
     const mockPlaylist = (id, name, isPublic) => ({
       id,
       name,
-      description: "A test playlist",
+      description: 'A test playlist',
       public: isPublic,
       collaborative: false,
-      snapshot_id: "snapshot-123",
+      snapshot_id: 'snapshot-123',
       external_urls: { spotify: `https://open.spotify.com/playlist/${id}` },
       followers: { total: 10 },
-      created_at: "2023-01-01T00:00:00Z",
-      updated_at: "2023-01-02T00:00:00Z",
+      created_at: '2023-01-01T00:00:00Z',
+      updated_at: '2023-01-02T00:00:00Z',
       owner: {
-        display_name: "Test User",
-        id: "user-1",
-        external_urls: { spotify: "https://open.spotify.com/user/1" },
+        display_name: 'Test User',
+        id: 'user-1',
+        external_urls: { spotify: 'https://open.spotify.com/user/1' },
       },
     });
 
@@ -130,10 +134,10 @@ describe("SpotifyBackup", () => {
       mockSpotifyApi.getPlaylistTracks.mockResolvedValue(mockTracks);
     });
 
-    it("should backup all playlists successfully", async () => {
+    it('should backup all playlists successfully', async () => {
       const mockPlaylists = [
-        mockPlaylist("1", "Playlist 1", true),
-        mockPlaylist("2", "Playlist 2", false),
+        mockPlaylist('1', 'Playlist 1', true),
+        mockPlaylist('2', 'Playlist 2', false),
       ];
 
       await spotifyBackup.backupPlaylists(mockPlaylists);
@@ -142,15 +146,15 @@ describe("SpotifyBackup", () => {
       expect(mockFileManager.savePlaylist).toHaveBeenCalledTimes(2);
     });
 
-    it("should continue processing if one playlist fails", async () => {
+    it('should continue processing if one playlist fails', async () => {
       const mockPlaylists = [
-        mockPlaylist("1", "Playlist 1", true),
-        mockPlaylist("2", "Playlist 2", false),
+        mockPlaylist('1', 'Playlist 1', true),
+        mockPlaylist('2', 'Playlist 2', false),
       ];
 
       mockSpotifyApi.getPlaylistTracks
         .mockResolvedValueOnce(mockTracks)
-        .mockRejectedValueOnce(new Error("API Error"));
+        .mockRejectedValueOnce(new Error('API Error'));
 
       await spotifyBackup.backupPlaylists(mockPlaylists);
 
@@ -158,49 +162,49 @@ describe("SpotifyBackup", () => {
     });
   });
 
-  describe("createPlaylistData", () => {
-    it("should create comprehensive playlist data structure", () => {
+  describe('createPlaylistData', () => {
+    it('should create comprehensive playlist data structure', () => {
       const mockPlaylist = {
-        id: "playlist-1",
-        name: "Test Playlist",
-        description: "A test playlist",
+        id: 'playlist-1',
+        name: 'Test Playlist',
+        description: 'A test playlist',
         public: true,
         collaborative: false,
-        snapshot_id: "snapshot-123",
-        external_urls: { spotify: "https://spotify.com/playlist/1" },
+        snapshot_id: 'snapshot-123',
+        external_urls: { spotify: 'https://spotify.com/playlist/1' },
         followers: { total: 10 },
-        created_at: "2023-01-01T00:00:00Z",
-        updated_at: "2023-01-02T00:00:00Z",
+        created_at: '2023-01-01T00:00:00Z',
+        updated_at: '2023-01-02T00:00:00Z',
         owner: {
-          display_name: "Test User",
-          id: "user-1",
-          external_urls: { spotify: "https://spotify.com/user/1" },
+          display_name: 'Test User',
+          id: 'user-1',
+          external_urls: { spotify: 'https://spotify.com/user/1' },
         },
       };
 
       const mockTracks = [
         {
-          name: "Track 1",
+          name: 'Track 1',
           artists: [
             {
-              name: "Artist 1",
-              id: "artist-1",
-              external_urls: { spotify: "https://spotify.com/artist/1" },
+              name: 'Artist 1',
+              id: 'artist-1',
+              external_urls: { spotify: 'https://spotify.com/artist/1' },
             },
           ],
           album: {
-            name: "Album 1",
-            id: "album-1",
-            release_date: "2023-01-01",
-            release_date_precision: "day",
-            external_urls: { spotify: "https://spotify.com/album/1" },
-            images: [{ url: "https://example.com/image.jpg" }],
+            name: 'Album 1',
+            id: 'album-1',
+            release_date: '2023-01-01',
+            release_date_precision: 'day',
+            external_urls: { spotify: 'https://spotify.com/album/1' },
+            images: [{ url: 'https://example.com/image.jpg' }],
           },
-          external_urls: { spotify: "https://spotify.com/track/1" },
+          external_urls: { spotify: 'https://spotify.com/track/1' },
           duration_ms: 180000,
           explicit: false,
           popularity: 80,
-          preview_url: "https://example.com/preview.mp3",
+          preview_url: 'https://example.com/preview.mp3',
           track_number: 1,
           disc_number: 1,
         },
@@ -209,62 +213,62 @@ describe("SpotifyBackup", () => {
       const result = spotifyBackup.createPlaylistData(mockPlaylist, mockTracks);
 
       expect(result).toEqual({
-        name: "Test Playlist",
+        name: 'Test Playlist',
         metadata: {
-          id: "playlist-1",
-          description: "A test playlist",
+          id: 'playlist-1',
+          description: 'A test playlist',
           owner: {
-            display_name: "Test User",
-            id: "user-1",
-            external_urls: { spotify: "https://spotify.com/user/1" },
+            display_name: 'Test User',
+            id: 'user-1',
+            external_urls: { spotify: 'https://spotify.com/user/1' },
           },
           public: true,
           collaborative: false,
-          snapshot_id: "snapshot-123",
-          external_urls: { spotify: "https://spotify.com/playlist/1" },
+          snapshot_id: 'snapshot-123',
+          external_urls: { spotify: 'https://spotify.com/playlist/1' },
           followers: { total: 10 },
-          created_at: "2023-01-01T00:00:00Z",
-          updated_at: "2023-01-02T00:00:00Z",
+          created_at: '2023-01-01T00:00:00Z',
+          updated_at: '2023-01-02T00:00:00Z',
           total_tracks: 1,
         },
         tracks: [
           {
-            name: "Track 1",
+            name: 'Track 1',
             artists: [
               {
-                name: "Artist 1",
-                id: "artist-1",
-                external_urls: { spotify: "https://spotify.com/artist/1" },
+                name: 'Artist 1',
+                id: 'artist-1',
+                external_urls: { spotify: 'https://spotify.com/artist/1' },
               },
             ],
             album: {
-              name: "Album 1",
-              id: "album-1",
-              release_date: "2023-01-01",
-              release_date_precision: "day",
-              external_urls: { spotify: "https://spotify.com/album/1" },
-              images: [{ url: "https://example.com/image.jpg" }],
+              name: 'Album 1',
+              id: 'album-1',
+              release_date: '2023-01-01',
+              release_date_precision: 'day',
+              external_urls: { spotify: 'https://spotify.com/album/1' },
+              images: [{ url: 'https://example.com/image.jpg' }],
             },
-            external_urls: { spotify: "https://spotify.com/track/1" },
+            external_urls: { spotify: 'https://spotify.com/track/1' },
             duration_ms: 180000,
             explicit: false,
             popularity: 80,
-            preview_url: "https://example.com/preview.mp3",
+            preview_url: 'https://example.com/preview.mp3',
             track_number: 1,
             disc_number: 1,
           },
         ],
         backup_metadata: {
           backed_up_at: expect.any(String),
-          backup_version: "1.0.0",
+          backup_version: '1.0.0',
         },
       });
     });
   });
 
-  describe("createZipArchive", () => {
-    it("should create zip archive", async () => {
-      const mockZipPath = "/path/to/backup.zip";
+  describe('createZipArchive', () => {
+    it('should create zip archive', async () => {
+      const mockZipPath = '/path/to/backup.zip';
       mockFileManager.createZipArchive.mockResolvedValue(mockZipPath);
 
       const result = await spotifyBackup.createZipArchive();

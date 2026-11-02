@@ -69,7 +69,7 @@ class SpotifyAuth {
       console.log(authURL);
       console.log('\n⏳ Waiting for authorization...');
       console.log(
-        'After authorizing, you\'ll be redirected back here automatically.\n',
+        "After authorizing, you'll be redirected back here automatically.\n",
       );
 
       // Step 3: Wait for callback with timeout

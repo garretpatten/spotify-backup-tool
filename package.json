@@ -20,7 +20,13 @@
     "type": "git",
     "url": "git+https://github.com/garretpatten/spotify-backup-tool.git"
   },
-  "keywords": ["spotify", "backup", "playlist", "music", "api"],
+  "keywords": [
+    "spotify",
+    "backup",
+    "playlist",
+    "music",
+    "api"
+  ],
   "author": "Garret Patten",
   "license": "ISC",
   "type": "commonjs",
@@ -42,13 +48,20 @@
   },
   "jest": {
     "testEnvironment": "node",
-    "testPathIgnorePatterns": ["/node_modules/", "src/config/config.test.js"],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "src/config/config.test.js"
+    ],
     "collectCoverageFrom": [
       "src/**/*.js",
       "!src/index.js",
       "!src/config/config.test.js"
     ],
     "coverageDirectory": "coverage",
-    "coverageReporters": ["text", "lcov", "html"]
+    "coverageReporters": [
+      "text",
+      "lcov",
+      "html"
+    ]
   }
 }
