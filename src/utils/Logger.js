@@ -1,4 +1,4 @@
-const config = require("../config/config");
+const config = require('../config/config');
 
 class Logger {
   constructor() {
@@ -22,35 +22,35 @@ class Logger {
     if (args.length > 0) {
       return `${prefix} ${message} ${args
         .map((arg) =>
-          typeof arg === "object" ? JSON.stringify(arg, null, 2) : String(arg),
+          typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg),
         )
-        .join(" ")}`;
+        .join(' ')}`;
     }
 
     return `${prefix} ${message}`;
   }
 
   error(message, ...args) {
-    if (this.shouldLog("error")) {
-      console.error(this.formatMessage("error", message, ...args));
+    if (this.shouldLog('error')) {
+      console.error(this.formatMessage('error', message, ...args));
     }
   }
 
   warn(message, ...args) {
-    if (this.shouldLog("warn")) {
-      console.warn(this.formatMessage("warn", message, ...args));
+    if (this.shouldLog('warn')) {
+      console.warn(this.formatMessage('warn', message, ...args));
     }
   }
 
   info(message, ...args) {
-    if (this.shouldLog("info")) {
-      console.log(this.formatMessage("info", message, ...args));
+    if (this.shouldLog('info')) {
+      console.log(this.formatMessage('info', message, ...args));
     }
   }
 
   debug(message, ...args) {
-    if (this.shouldLog("debug")) {
-      console.log(this.formatMessage("debug", message, ...args));
+    if (this.shouldLog('debug')) {
+      console.log(this.formatMessage('debug', message, ...args));
     }
   }
 }

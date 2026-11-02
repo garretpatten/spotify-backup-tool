@@ -84,16 +84,56 @@ describe("SpotifyBackup", () => {
   });
 
   describe("backupPlaylists", () => {
+    const mockTracks = [
+      {
+        name: "Track 1",
+        artists: [
+          { name: "Artist 1", id: "artist-1", external_urls: { spotify: "https://open.spotify.com/artist/1" } },
+        ],
+        album: {
+          name: "Album 1",
+          id: "album-1",
+          release_date: "2023-01-01",
+          release_date_precision: "day",
+          external_urls: { spotify: "https://open.spotify.com/album/1" },
+          images: [{ url: "https://example.com/image.jpg" }],
+        },
+        external_urls: { spotify: "https://open.spotify.com/track/1" },
+        duration_ms: 180000,
+        explicit: false,
+        popularity: 80,
+        preview_url: "https://example.com/preview.mp3",
+        track_number: 1,
+        disc_number: 1,
+      },
+    ];
+
+    const mockPlaylist = (id, name, isPublic) => ({
+      id,
+      name,
+      description: "A test playlist",
+      public: isPublic,
+      collaborative: false,
+      snapshot_id: "snapshot-123",
+      external_urls: { spotify: `https://open.spotify.com/playlist/${id}` },
+      followers: { total: 10 },
+      created_at: "2023-01-01T00:00:00Z",
+      updated_at: "2023-01-02T00:00:00Z",
+      owner: {
+        display_name: "Test User",
+        id: "user-1",
+        external_urls: { spotify: "https://open.spotify.com/user/1" },
+      },
+    });
+
     beforeEach(() => {
-      mockSpotifyApi.getPlaylistTracks.mockResolvedValue([
-        { name: "Track 1", artists: [{ name: "Artist 1" }] },
-      ]);
+      mockSpotifyApi.getPlaylistTracks.mockResolvedValue(mockTracks);
     });
 
     it("should backup all playlists successfully", async () => {
       const mockPlaylists = [
-        { id: "1", name: "Playlist 1", public: true },
-        { id: "2", name: "Playlist 2", public: false },
+        mockPlaylist("1", "Playlist 1", true),
+        mockPlaylist("2", "Playlist 2", false),
       ];
 
       await spotifyBackup.backupPlaylists(mockPlaylists);
@@ -104,14 +144,12 @@ describe("SpotifyBackup", () => {
 
     it("should continue processing if one playlist fails", async () => {
       const mockPlaylists = [
-        { id: "1", name: "Playlist 1", public: true },
-        { id: "2", name: "Playlist 2", public: false },
+        mockPlaylist("1", "Playlist 1", true),
+        mockPlaylist("2", "Playlist 2", false),
       ];
 
       mockSpotifyApi.getPlaylistTracks
-        .mockResolvedValueOnce([
-          { name: "Track 1", artists: [{ name: "Artist 1" }] },
-        ])
+        .mockResolvedValueOnce(mockTracks)
         .mockRejectedValueOnce(new Error("API Error"));
 
       await spotifyBackup.backupPlaylists(mockPlaylists);

@@ -1,6 +1,6 @@
-const SpotifyApi = require("./SpotifyApi");
-const FileManager = require("./FileManager");
-const Logger = require("../utils/Logger");
+const SpotifyApi = require('./SpotifyApi');
+const FileManager = require('./FileManager');
+const Logger = require('../utils/Logger');
 
 class SpotifyBackup {
   constructor() {
@@ -15,14 +15,14 @@ class SpotifyBackup {
   }
 
   async fetchAllPlaylists() {
-    this.logger.info("🔍 Fetching all playlists...");
+    this.logger.info('🔍 Fetching all playlists...');
     const playlists = await this.spotifyApi.getAllPlaylists();
     this.logger.info(`📋 Retrieved ${playlists.length} playlists`);
     return playlists;
   }
 
   async backupPlaylists(playlists) {
-    this.logger.info("💾 Starting playlist backup...");
+    this.logger.info('💾 Starting playlist backup...');
 
     for (const playlist of playlists) {
       try {
@@ -33,7 +33,7 @@ class SpotifyBackup {
 
         await this.fileManager.savePlaylist(playlistData);
 
-        const visibility = playlist.public ? "PUBLIC" : "PRIVATE";
+        const visibility = playlist.public ? 'PUBLIC' : 'PRIVATE';
         this.logger.info(
           `✅ ${visibility} ➜ ${playlist.name} (${tracks.length} tracks)`,
         );
@@ -92,13 +92,13 @@ class SpotifyBackup {
       })),
       backup_metadata: {
         backed_up_at: new Date().toISOString(),
-        backup_version: "1.0.0",
+        backup_version: '1.0.0',
       },
     };
   }
 
   async createZipArchive() {
-    this.logger.info("📦 Creating zip archive...");
+    this.logger.info('📦 Creating zip archive...');
     return await this.fileManager.createZipArchive();
   }
 }

@@ -1,16 +1,16 @@
-const path = require("path");
+const path = require('path');
 
 // Use test configuration during testing
-if (process.env.NODE_ENV === "test" || process.env.JEST_WORKER_ID) {
-  module.exports = require("./config.test");
+if (process.env.NODE_ENV === 'test' || process.env.JEST_WORKER_ID) {
+  module.exports = require('./config.test');
 } else {
   const config = {
     // Backup directory configuration
     backup: {
       directory:
-        process.env.BACKUP_DIR || path.join(process.cwd(), "spotify-playlists"),
-      zipFileName: process.env.ZIP_FILE_NAME || "spotify-backup",
-      includeTimestamp: process.env.INCLUDE_TIMESTAMP !== "false",
+        process.env.BACKUP_DIR || path.join(process.cwd(), 'spotify-playlists'),
+      zipFileName: process.env.ZIP_FILE_NAME || 'spotify-backup',
+      includeTimestamp: process.env.INCLUDE_TIMESTAMP !== 'false',
     },
 
     // Spotify API configuration
@@ -22,8 +22,8 @@ if (process.env.NODE_ENV === "test" || process.env.JEST_WORKER_ID) {
 
     // Logging configuration
     logging: {
-      level: process.env.LOG_LEVEL || "info",
-      includeTimestamp: process.env.LOG_TIMESTAMP !== "false",
+      level: process.env.LOG_LEVEL || 'info',
+      includeTimestamp: process.env.LOG_TIMESTAMP !== 'false',
     },
 
     // API rate limiting
@@ -42,12 +42,12 @@ if (process.env.NODE_ENV === "test" || process.env.JEST_WORKER_ID) {
 
   // Validate required configuration (skip during testing)
   const isTestEnvironment =
-    process.env.NODE_ENV === "test" || process.env.JEST_WORKER_ID;
+    process.env.NODE_ENV === 'test' || process.env.JEST_WORKER_ID;
   if (!isTestEnvironment) {
     const requiredEnvVars = [
-      "SPOTIFY_CLIENT_ID",
-      "SPOTIFY_CLIENT_SECRET",
-      "SPOTIFY_REFRESH_TOKEN",
+      'SPOTIFY_CLIENT_ID',
+      'SPOTIFY_CLIENT_SECRET',
+      'SPOTIFY_REFRESH_TOKEN',
     ];
     const missingVars = requiredEnvVars.filter(
       (varName) => !process.env[varName],
@@ -55,7 +55,7 @@ if (process.env.NODE_ENV === "test" || process.env.JEST_WORKER_ID) {
 
     if (missingVars.length > 0) {
       throw new Error(
-        `Missing required environment variables: ${missingVars.join(", ")}`,
+        `Missing required environment variables: ${missingVars.join(', ')}`,
       );
     }
   }

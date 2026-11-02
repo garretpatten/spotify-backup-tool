@@ -42,9 +42,11 @@
   },
   "jest": {
     "testEnvironment": "node",
+    "testPathIgnorePatterns": ["/node_modules/", "src/config/config.test.js"],
     "collectCoverageFrom": [
       "src/**/*.js",
-      "!src/index.js"
+      "!src/index.js",
+      "!src/config/config.test.js"
     ],
     "coverageDirectory": "coverage",
     "coverageReporters": ["text", "lcov", "html"]

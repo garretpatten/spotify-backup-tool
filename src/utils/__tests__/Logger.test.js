@@ -4,11 +4,11 @@ jest.mock("../../config/config", () => ({
 }));
 
 const Logger = require("../Logger");
+const config = require("../../config/config");
 
 describe("Logger", () => {
   let logger;
   let consoleSpy;
-  let mockConfig;
 
   beforeEach(() => {
     consoleSpy = {
@@ -17,13 +17,8 @@ describe("Logger", () => {
       log: jest.spyOn(console, "log").mockImplementation(),
     };
 
-    // Reset environment
-    delete process.env.LOG_LEVEL;
-
-    // Reset the mock
-    jest.resetModules();
-    mockConfig = require("../../config/config");
-    mockConfig.logging.level = "info";
+    // Reset the log level for each test
+    config.logging.level = "info";
 
     logger = new Logger();
   });
@@ -61,8 +56,8 @@ describe("Logger", () => {
       expect(consoleSpy.log).not.toHaveBeenCalled();
     });
 
-    it("should log debug messages when LOG_LEVEL is debug", () => {
-      mockConfig.logging.level = "debug";
+    it("should log debug messages when config level is debug", () => {
+      config.logging.level = "debug";
       const debugLogger = new Logger();
 
       debugLogger.debug("Test debug");
@@ -71,8 +66,8 @@ describe("Logger", () => {
       );
     });
 
-    it("should not log info messages when LOG_LEVEL is warn", () => {
-      mockConfig.logging.level = "warn";
+    it("should not log info messages when config level is warn", () => {
+      config.logging.level = "warn";
       const warnLogger = new Logger();
 
       warnLogger.info("Test info");
@@ -86,7 +81,7 @@ describe("Logger", () => {
 
       const logCall = consoleSpy.log.mock.calls[0][0];
       expect(logCall).toMatch(
-        /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z \[INFO\] Test message$/,
+        /^\[\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z\] \[INFO\] Test message$/,
       );
     });
 

@@ -11,6 +11,9 @@ jest.mock("../../config/config", () => ({
     retryAttempts: 3,
     retryDelay: 1000,
   },
+  logging: {
+    level: "info",
+  },
 }));
 
 const SpotifyApi = require("../SpotifyApi");
@@ -86,10 +89,10 @@ describe("SpotifyApi", () => {
 
       mockSpotifyWebApi.getUserPlaylists
         .mockResolvedValueOnce({
-          body: { items: mockPlaylists1 },
+          body: { items: mockPlaylists1, next: "next-page" },
         })
         .mockResolvedValueOnce({
-          body: { items: mockPlaylists2 },
+          body: { items: mockPlaylists2, next: null },
         });
 
       const result = await spotifyApi.getAllPlaylists();
