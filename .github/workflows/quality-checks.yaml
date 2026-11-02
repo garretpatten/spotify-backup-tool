@@ -1,7 +1,7 @@
 ---
 name: 'Quality Checks'
 
-on:
+'on':
   pull_request:
 
 permissions:
@@ -10,8 +10,9 @@ permissions:
 jobs:
   quality-checks:
     name: 'Linters'
+    # garretpatten/quality-checks, pinned to master
     # yamllint disable-line rule:line-length
-    uses: garretpatten/quality-checks/.github/workflows/quality-checks.yaml@72ec29587c0f3cc59d9d3a35acbe04215e46abe5 # master
+    uses: garretpatten/quality-checks/.github/workflows/quality-checks.yaml@72ec29587c0f3cc59d9d3a35acbe04215e46abe5
     with:
       eslint_run: true
       hadolint_run: true
