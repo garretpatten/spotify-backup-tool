@@ -3,13 +3,20 @@ module.exports = {
     node: true,
     es2021: true,
   },
-  globals: {
-    vi: 'writable',
-  },
   extends: ['eslint:recommended'],
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
+  },
+  globals: {
+    vi: 'writable',
+    describe: 'writable',
+    it: 'writable',
+    expect: 'writable',
+    beforeEach: 'writable',
+    afterEach: 'writable',
+    beforeAll: 'writable',
+    afterAll: 'writable',
   },
   rules: {
     indent: ['error', 2],

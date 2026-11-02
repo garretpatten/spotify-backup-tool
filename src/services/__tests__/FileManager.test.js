@@ -28,7 +28,6 @@ describe('FileManager', () => {
     vi.clearAllMocks();
 
     // Mock archiver
-    const archiver = require('archiver');
     mockArchiver = {
       pipe: vi.fn(),
       directory: vi.fn(),

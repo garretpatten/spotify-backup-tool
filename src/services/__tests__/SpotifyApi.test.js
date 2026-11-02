@@ -17,7 +17,6 @@ describe('SpotifyApi', () => {
     vi.clearAllMocks();
 
     // Mock the SpotifyWebApi constructor
-    const SpotifyWebApi = require('spotify-web-api-node');
     mockSpotifyWebApi = {
       setRefreshToken: vi.fn(),
       refreshAccessToken: vi.fn(),
