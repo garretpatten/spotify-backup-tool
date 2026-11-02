@@ -6,9 +6,9 @@ A comprehensive Node.js tool that uses the Spotify API to backup all your privat
 
 - 🎵 **Complete Playlist Backup**: Retrieves all your Spotify playlists (public and private)
 - 📊 **Rich Metadata**: Captures comprehensive playlist and track information including:
-    - Playlist details (name, description, owner, creation date, follower count)
-    - Track information (artists, albums, release dates, popularity, duration)
-    - External URLs for easy access
+  - Playlist details (name, description, owner, creation date, follower count)
+  - Track information (artists, albums, release dates, popularity, duration)
+  - External URLs for easy access
 - 📦 **Zip Compression**: Creates compressed archives for efficient storage
 - 🔐 **Automated Authentication**: Interactive setup that handles OAuth flow automatically
 - 🧪 **Comprehensive Testing**: Full Jest test suite with CI/CD integration
@@ -180,16 +180,16 @@ npm run test:coverage
 
 The tool supports various configuration options through environment variables:
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `BACKUP_DIR` | `./spotify-playlists` | Directory to store playlist backups |
-| `ZIP_FILE_NAME` | `spotify-backup` | Base name for zip archives |
-| `INCLUDE_TIMESTAMP` | `true` | Include timestamp in zip filename |
-| `LOG_LEVEL` | `info` | Logging level (error, warn, info, debug) |
-| `PLAYLIST_LIMIT` | `50` | Number of playlists to fetch per API call |
-| `TRACK_LIMIT` | `100` | Number of tracks to fetch per API call |
-| `RETRY_ATTEMPTS` | `3` | Number of retry attempts for failed API calls |
-| `COMPRESSION_LEVEL` | `9` | Zip compression level (1-9) |
+| Variable            | Default               | Description                                   |
+| ------------------- | --------------------- | --------------------------------------------- |
+| `BACKUP_DIR`        | `./spotify-playlists` | Directory to store playlist backups           |
+| `ZIP_FILE_NAME`     | `spotify-backup`      | Base name for zip archives                    |
+| `INCLUDE_TIMESTAMP` | `true`                | Include timestamp in zip filename             |
+| `LOG_LEVEL`         | `info`                | Logging level (error, warn, info, debug)      |
+| `PLAYLIST_LIMIT`    | `50`                  | Number of playlists to fetch per API call     |
+| `TRACK_LIMIT`       | `100`                 | Number of tracks to fetch per API call        |
+| `RETRY_ATTEMPTS`    | `3`                   | Number of retry attempts for failed API calls |
+| `COMPRESSION_LEVEL` | `9`                   | Zip compression level (1-9)                   |
 
 ## Output Format
 
