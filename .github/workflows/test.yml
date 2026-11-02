@@ -1,6 +1,7 @@
+---
 name: Test Suite
 
-on:
+'on':
   pull_request:
     branches: [master]
   push:
@@ -19,10 +20,12 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        # actions/checkout v7.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
       - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        # actions/setup-node v7.1.0
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
@@ -41,7 +44,8 @@ jobs:
 
       - name: Upload coverage to Codecov
         if: matrix.node-version == '24.x'
-        uses: codecov/codecov-action@2320916714171c258d01dbd81040d64d798c6f8e # v7.1.1
+        # codecov/codecov-action v7.1.1
+        uses: codecov/codecov-action@2320916714171c258d01dbd81040d64d798c6f8e
         with:
           file: ./coverage/lcov.info
           flags: unittests
