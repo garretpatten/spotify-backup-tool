@@ -1,6 +1,15 @@
 const http = require('http');
 const url = require('url');
 
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 class CallbackServer {
   constructor(port = 3000) {
     this.port = port;
@@ -28,7 +37,7 @@ class CallbackServer {
               <html>
                 <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
                   <h2 style="color: red;">❌ Authorization Failed</h2>
-                  <p>Error: ${error}</p>
+                  <p>Error: ${escapeHtml(error)}</p>
                   <p>You can close this window and try again.</p>
                 </body>
               </html>

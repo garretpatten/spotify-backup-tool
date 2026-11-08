@@ -39,4 +39,21 @@ describe('CallbackServer', () => {
       expect(res.text).not.toContain('Authorization code:');
     });
   });
+
+  describe('authorization failure', () => {
+    it('escapes the error query parameter in the HTML response', async () => {
+      const callbackPromise = callbackServer.waitForCallback();
+
+      const res = await request(callbackServer.server)
+        .get('/callback?error=%3Cscript%3Ealert(1)%3C/script%3E')
+        .expect(400);
+
+      await expect(callbackPromise).resolves.toEqual({
+        error: '<script>alert(1)</script>',
+      });
+      expect(res.text).not.toContain('<script>alert(1)</script>');
+      expect(res.text).toContain('&lt;script&gt;alert(1)&lt;/script&gt;');
+      expect(res.text).toContain('Authorization Failed');
+    });
+  });
 });
