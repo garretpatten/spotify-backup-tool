@@ -1,5 +1,8 @@
 # Spotify Backup Tool
 
+[![License: MIT](https://img.shields.io/github/license/garretpatten/spotify-backup-tool?style=flat-square)](./LICENSE)
+[![Tests](https://img.shields.io/github/actions/workflow/status/garretpatten/spotify-backup-tool/test.yml?branch=master&label=tests&logo=github&style=flat-square)](https://github.com/garretpatten/spotify-backup-tool/actions/workflows/test.yml)
+
 A comprehensive Node.js tool that uses the Spotify API to backup all your private and public playlists with detailed metadata, then creates a compressed zip archive for safe storage.
 
 ## Features
